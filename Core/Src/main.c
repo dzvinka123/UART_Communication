@@ -112,16 +112,8 @@ int main(void)
   ILI9341_SetRotation(SCREEN_VERTICAL_2);
   ILI9341_FillScreen(BLACK);
 
-
-
   ILI9341_DrawText("GPS MODE", FONT4, 0, 10, ORANGE);
   static uint32_t last_ui_ms = 0;
-
-  fake_gps_t demo = {
-      .lat = 49.826120f, .hemi_lat = 'N',
-      .lon = 24.001762f, .hemi_lon = 'E',
-      .hour = 20, .min = 43, .sec = 56
-  };
 
 
   /* USER CODE END 2 */
@@ -138,21 +130,19 @@ int main(void)
 	     if (now - last_ui_ms >= 2000) {
 	         last_ui_ms = now;
 
-	         demo_gps_step_1s(&demo);
-
 	         char buf[48];
 	         uint32_t id = device_id();
 
 	         snprintf(buf, sizeof(buf), "Device ID: %lu", (unsigned long)id);
 	         ILI9341_DrawTextClean(0, 80, buf, FONT3, CYAN, BLACK);
 
-	         snprintf(buf, sizeof(buf), "LAT: %.6f %c", demo.lat, demo.hemi_lat);
+	         snprintf(buf, sizeof(buf), "LAT: %.6f %c", position_gps.lat, position_gps.hemi_lat);
 	         ILI9341_DrawTextClean(0, 100, buf, FONT3, CYAN, BLACK);
 
-	         snprintf(buf, sizeof(buf), "LON: %.6f %c", demo.lon, demo.hemi_lon);
+	         snprintf(buf, sizeof(buf), "LON: %.6f %c", position_gps.lon, position_gps.hemi_lon);
 	         ILI9341_DrawTextClean(0, 120, buf, FONT3, MAGENTA, BLACK);
 
-	         snprintf(buf, sizeof(buf), "TIME: %02u:%02u:%02u", demo.hour, demo.min, demo.sec);
+	         snprintf(buf, sizeof(buf), "TIME: %02u:%02u:%02u", position_gps.hour, position_gps.min, demo.sec);
 	         ILI9341_DrawTextClean(0, 140, buf, FONT3, GREEN, BLACK);
 	     }
 
@@ -420,3 +410,4 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
+
