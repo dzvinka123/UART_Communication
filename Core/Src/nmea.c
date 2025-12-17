@@ -148,13 +148,11 @@ void process_bytes_nmea(const uint8_t *data, const uint16_t data_len)
             const char *line = (const char*)nmea_line.buf;
 
 
-            if (cli_raw_enabled) {
-                HAL_UART_Transmit(&huart1, (uint8_t*)line, strlen(line), 100);
-                HAL_UART_Transmit(&huart1, (uint8_t*)"\r\n", 2, 100);
-            }
+           if (cli_raw_enabled) {
+               HAL_UART_Transmit(&huart1, (uint8_t*)line, strlen(line), 100);
+               HAL_UART_Transmit(&huart1, (uint8_t*)"\r\n", 2, 100);
+           }
 
-//            HAL_UART_Transmit(&huart1, (uint8_t*)line, strlen(line), 100);
-//            HAL_UART_Transmit(&huart1, (uint8_t*)"\r\n", 2, 100);
 
 
             if (check_sum(line)) {
